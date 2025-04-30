@@ -9,6 +9,8 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
+    app.config['WTF_CSRF_ENABLED'] = False
+
     
     app.config.from_object('config.Config')
     

@@ -46,7 +46,7 @@ class Profile(db.Model):
     height = db.Column(db.Float)
     fav_cuisine = db.Column(db.String(50))
     fav_colour = db.Column(db.String(50))
-    fav_school_subject = db.Column(db.String(50))
+    fav_school_subject = db.Column(db.String(50))  # ✅ Make sure this matches your JSON
     political = db.Column(db.Boolean)
     religious = db.Column(db.Boolean)
     family_oriented = db.Column(db.Boolean)
@@ -75,4 +75,4 @@ class Favourite(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id_fk = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    fav_user_id_fk = db.Column(db.Integer, nullable=False)  # user_id of the person being favourited
+    fav_user_id_fk = db.Column(db.Integer, nullable=False)
