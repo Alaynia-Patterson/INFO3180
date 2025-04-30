@@ -32,6 +32,10 @@ def get_profile(profile_id):
     profile = Profile.query.get_or_404(profile_id)
     return jsonify(profile.to_dict())
 
+@api.route('/test', methods=['GET'])
+def test():
+    return jsonify({'message': 'It works!'})
+
 @api.route('/profiles/<int:user_id>/favourite', methods=['POST'])
 @jwt_required()
 def favourite_user(user_id):
@@ -47,3 +51,5 @@ def favourite_user(user_id):
     db.session.add(fav)
     db.session.commit()
     return jsonify({'message': "User favourited"}), 201
+
+
