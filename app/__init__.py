@@ -2,27 +2,26 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+from config import Config
 
 db = SQLAlchemy()
+migrate = Migrate()
 jwt = JWTManager()
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config['WTF_CSRF_ENABLED'] = False
-
-    
-    app.config.from_object('config.Config')
+    app.config.from_object(config_class)
     
     db.init_app(app)
+    migrate.init_app(app, db)
     jwt.init_app(app)
-    migrate = Migrate(app, db)
-    CORS(app)
-
-    from .auth import auth
-    from .routes import api
-
-    app.register_blueprint(auth, url_prefix='/api/auth')
-    app.register_blueprint(api, url_prefix='/api')
-
+    
+    from app.routes import auth, profiles, users, search
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(profiles.bp)
+    app.register_blueprint(users.bp)
+    app.register_blueprint(search.bp)
+    
     return app
+
+from app import models
